@@ -1,39 +1,24 @@
 package lv.helloit.lottery.LotteryApp;
 
+import lv.helloit.lottery.LotteryApp.User.UserDto;
+import lv.helloit.lottery.LotteryApp.User.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class LotteryController {
 
-    @PostMapping("/start-registration")
-    public void startRegistration () {
+    @Autowired
+    UserService userService;
 
-    }
 
     @PostMapping("/register")
-    public void registerUser () {
-
+    public String registerUser(Model model, @ModelAttribute UserDto userDto) {
+      userService.registerUser(userDto);
+        return "redirect:/sign-up";
     }
 
-    @PostMapping("/stop-registration")
-    public void stopRegistration () {
-
-    }
-
-    @PostMapping("/choose-winner")
-    public void chooseWinner() {
-
-    }
-
-    @GetMapping("/status")
-    public void getStatus () {
-
-    }
-
-    @GetMapping
-    public void getStatistics() {
-
-    }
 }

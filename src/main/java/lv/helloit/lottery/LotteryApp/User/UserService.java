@@ -16,12 +16,14 @@ public class UserService {
     @Autowired
     UserDao userDao;
 
-    public void registerUser(UserDto userDto) {
+    public String registerUser(UserDto userDto) {
         User user = new User();
         user.setLotteryId(userDto.getLotteryId());
         user.setEmail(userDto.getEmail());
         user.setCode(userDto.getCode());
+        user.setLotteryId(0L);
         userDao.save(user);
+        return "saved user";
     }
 
     public String chooseWinner(Long id) {

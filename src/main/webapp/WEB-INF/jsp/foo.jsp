@@ -15,18 +15,19 @@ ${param.error}
         </div>
 
         <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" name="password" class="form-control" id="exampleInputPassword1"
-                   placeholder="Password">
+            <label>Password</label>
+            <input type="password" name="code" class="form-control" placeholder="Password">
         </div>
 
-        <div class="form-group form-check">
-            <input type="checkbox" name="agree" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">I agree with service rules</label>
+        <div class="form-group">
+            <label>Password</label>
+            <input  name="age" class="form-control" placeholder="Password">
         </div>
+
 
         <button type="submit" class="btn btn-primary">Sign Up</button>
         <button type="reset" class="btn btn-secondary">Clear</button>
+        <p>${response}</p>
 
     </form>
 </div>

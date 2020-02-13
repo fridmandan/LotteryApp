@@ -4,14 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity(name = "lottery")
 public class Lottery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +22,9 @@ public class Lottery {
     private LocalDateTime startDate;
     @Column
     private LocalDateTime endDate;
+    @Column
     private boolean active;
+    @Column
     private Long winnerId;
 
 
