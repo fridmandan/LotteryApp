@@ -1,7 +1,11 @@
 package lv.helloit.lottery.LotteryApp.User;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserDao extends CrudRepository<User, String> {
+import java.util.List;
 
+@Repository
+public interface UserDao extends CrudRepository<User, Long> {
+    List<User> findAllByLotteryId (Long lotteryId);
 }
