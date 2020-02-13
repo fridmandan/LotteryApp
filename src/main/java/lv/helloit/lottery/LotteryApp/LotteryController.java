@@ -31,4 +31,9 @@ public class LotteryController {
     public void getStatus () {
 
     }
+
+    @GetMapping
+    public void getStatistics() {
+
+    }
 }
