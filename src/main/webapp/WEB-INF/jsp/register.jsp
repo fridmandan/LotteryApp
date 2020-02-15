@@ -5,8 +5,11 @@
 <!DOCTYPE html>
 <html>
 <body>
+<jsp:include page="navbar.jsp">
+    <jsp:param name="currentPage" value="register"/>
+</jsp:include>
 <div class="container-fluid">
-    <form action="/register-lotteryp" method="post">
+    <form action="/register" method="post">
         <div class="form-group">
             <label for="emailInput">Email address</label>
             <input type="email" name="email" class="form-control" id="emailInput" aria-describedby="emailHelp"
@@ -14,13 +17,18 @@
         </div>
 
         <div class="form-group">
-            <label>Password</label>
-            <input type="password" name="code" class="form-control" placeholder="Password">
+            <label>Lottery</label>
+            <input name="lotteryId" class="form-control" placeholder="lottery id">
         </div>
 
         <div class="form-group">
-            <label>Password</label>
-            <input  name="age" class="form-control" placeholder="Password">
+            <label>Code</label>
+            <input type="password" name="code" class="form-control" placeholder="Code">
+        </div>
+
+        <div class="form-group">
+            <label>Age</label>
+            <input name="age" class="form-control" placeholder="Age">
         </div>
 
 
