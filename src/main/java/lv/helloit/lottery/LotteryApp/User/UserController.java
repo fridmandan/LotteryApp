@@ -1,6 +1,7 @@
 package lv.helloit.lottery.LotteryApp.User;
 
 import lombok.extern.slf4j.Slf4j;
+import lv.helloit.lottery.LotteryApp.Lottery.LotteryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
@@ -24,19 +26,28 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/register-lotteryp")
+    @PostMapping("/register")
     String signUp(@Valid @ModelAttribute UserDto userDto, Model model) {
-       String response = userService.registerUser(userDto);
-        LOGGER.info("User created: " + userDto);
-        model.addAttribute("response",response);
+        try {
+            String response = userService.registerUser(userDto);
+            LOGGER.info("User created: " + userDto);
+            model.addAttribute("response",response);
+        } catch (LotteryException e) {
+            model.addAttribute("response", e.getMessage());
+        }
 
-        return "foo";
-
-
+        return "register";
     }
 
-    @GetMapping("/register-lotteryp")
+    @GetMapping("/status")
+    String foo (Model model, @RequestParam Long id, @RequestParam String email, @RequestParam String code){
+        String response = userService.getWinnerStatus(id, email, code);
+        model.addAttribute("response",response);
+        return "status";
+    }
+
+    @GetMapping("/register")
     String foo (Model model){
-        return "foo";
+        return "register";
     }
 }
