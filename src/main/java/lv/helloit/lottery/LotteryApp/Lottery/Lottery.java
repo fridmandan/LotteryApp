@@ -3,13 +3,17 @@ package lv.helloit.lottery.LotteryApp.Lottery;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lv.helloit.lottery.LotteryApp.User.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "lottery")
+@Entity(name = "lotteries")
 public class Lottery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +21,7 @@ public class Lottery {
     @Column
     private String title;
     @Column
-    private Long limit;
+    private Integer maxLimit;
     @Column
     private LocalDateTime startDate;
     @Column
@@ -27,6 +31,8 @@ public class Lottery {
     @Column
     private Long winnerId;
 
-
-
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "lottery")
+    private Set<User> users = new HashSet<>();
 }

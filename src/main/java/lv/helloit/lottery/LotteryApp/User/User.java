@@ -1,9 +1,8 @@
 package lv.helloit.lottery.LotteryApp.User;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lv.helloit.lottery.LotteryApp.Lottery.Lottery;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,8 +12,10 @@ import java.util.List;
 @AllArgsConstructor
 @Entity(name = "participants")
 public class User {
-    @Column
-    private Long lotteryId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude @ToString.Exclude
+    @JoinColumn(name = "lottery_id", nullable = false)
+    private Lottery lottery;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -23,5 +24,6 @@ public class User {
     private String email;
     @Column
     private String code;
-
+    @Column
+    private Byte age;
 }
