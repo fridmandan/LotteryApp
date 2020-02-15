@@ -13,13 +13,14 @@ import java.util.Optional;
 public class LotteryService {
     LotteryDao lotteryDao;
     UserDao userDao;
-    public void startLottery(LotteryDto lotteryDto) {
+    public String startLottery(LotteryDto lotteryDto) {
         Lottery lottery = new Lottery();
-        lottery.setLimit(lotteryDto.getLimit());
-        lottery.setTitle(lotteryDto.getTitle());
+        lottery.setLimit(1000L); //lotteryDto.getLimit()
+        lottery.setTitle("Christmas Lottery 1");//lotteryDto.getTitle()
         lottery.setStartDate(LocalDateTime.now());
         lottery.setActive(true);
         lotteryDao.save(lottery);
+        return "yahoooo";
     }
 
     public String stopLottery(Long id) {

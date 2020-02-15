@@ -7,5 +7,4 @@ public class LotteryDto {
     private String title;
     private Long limit;
 
-
 }

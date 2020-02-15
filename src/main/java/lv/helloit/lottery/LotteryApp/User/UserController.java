@@ -17,16 +17,20 @@ import javax.validation.Valid;
 @Slf4j
 public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
-    @Autowired
-    UserService userService;
+    public final UserService userService;
 
-    @PostMapping("/sign-up")
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping("/register-lotteryp")
     String signUp(@Valid @ModelAttribute UserDto userDto, Model model) {
        String response = userService.registerUser(userDto);
         LOGGER.info("User created: " + userDto);
         model.addAttribute("response",response);
 
-        return "";
+        return "foo";
 
 
     }

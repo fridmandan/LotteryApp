@@ -3,11 +3,10 @@
 
 
 <!DOCTYPE html>
-<html lang="${sessionScope.lang}">
+<html>
 <body>
-${param.error}
 <div class="container-fluid">
-    <form action="/register" method="post">
+    <form action="/register-lotteryp" method="post">
         <div class="form-group">
             <label for="emailInput">Email address</label>
             <input type="email" name="email" class="form-control" id="emailInput" aria-describedby="emailHelp"
@@ -31,4 +30,5 @@ ${param.error}
 
     </form>
 </div>
+</body>
 </html>
