@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class UserDto {
-    private byte age;
+    private Byte age;
     private String email;
     private String code;
     private Long lotteryId;
