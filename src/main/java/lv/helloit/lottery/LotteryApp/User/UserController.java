@@ -29,10 +29,11 @@ public class UserController {
     @PostMapping("/register")
     String signUp(@Valid @ModelAttribute UserDto userDto, Model model) {
         try {
-            String response = userService.registerUser(userDto);
-            LOGGER.info("User created: " + userDto);
-            model.addAttribute("response",response);
+            String createdUser = userService.registerUser(userDto);
+            LOGGER.info("User created: " + userDto.getEmail());
+            model.addAttribute("response",createdUser);
         } catch (LotteryException e) {
+            LOGGER.info("User with email" + userDto.getEmail() + "wasn't registered");
             model.addAttribute("response", e.getMessage());
         }
 
@@ -40,14 +41,15 @@ public class UserController {
     }
 
     @GetMapping("/status")
-    String foo (Model model, @RequestParam Long id, @RequestParam String email, @RequestParam String code){
+    String status (Model model, @RequestParam Long id, @RequestParam String email, @RequestParam String code){
         String response = userService.getWinnerStatus(id, email, code);
+        LOGGER.info("Status was called by user" + response);
         model.addAttribute("response",response);
         return "status";
     }
 
     @GetMapping("/register")
-    String foo (Model model){
+    String register (Model model){
         return "register";
     }
 }

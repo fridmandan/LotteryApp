@@ -2,6 +2,8 @@ package lv.helloit.lottery.LotteryApp.Lottery;
 
 import lv.helloit.lottery.LotteryApp.Reason;
 import lv.helloit.lottery.LotteryApp.User.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +17,14 @@ import java.util.List;
 
 @Controller
 public class LotteryController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LotteryController.class);
 
     @Autowired
     LotteryService lotteryService;
 
 
     @PostMapping("/start-registration")
-    public ResponseEntity<Object> startLottery(Model model, @ModelAttribute StartLotteryDto startLotteryDto) {
+    public ResponseEntity<Object> startLottery(Model model, @ModelAttribute StartLotteryDto startLotteryDto) throws LotteryException {
         Reason reason = new Reason();
             try {
                 Lottery lottery = lotteryService.startLottery(startLotteryDto);
@@ -29,38 +32,42 @@ public class LotteryController {
                 reason.setStatus("OK");
                 return new ResponseEntity<Object>(reason, HttpStatus.OK);
             } catch(LotteryException e) {
+                LOGGER.info("couldn't start lottery with id" + lotteryService.startLottery(startLotteryDto).getId());
                 reason.setStatus("Fail");
                 reason.setReason(e.getMessage());
-                return new ResponseEntity<Object>(reason, HttpStatus.OK);
+                return new ResponseEntity<Object>(reason, HttpStatus.INTERNAL_SERVER_ERROR);
             }
     }
 
-    @PostMapping("/stop-lottery")
-    public ResponseEntity<Object> stopLottery(Model model, @ModelAttribute IdLotteryDto idLotteryDto) {
+    @PostMapping("/stop-registration")
+    public ResponseEntity<Object> stopLottery(Model model, @ModelAttribute IdLotteryDto idLotteryDto) throws LotteryException {
         Reason reason = new Reason();
         try {
             lotteryService.stopLottery(idLotteryDto.getId());
             reason.setStatus("OK");
             return new ResponseEntity<Object>(reason, HttpStatus.OK);
         } catch(LotteryException e) {
+            LOGGER.info("Couldn't stop lottery with id" + lotteryService.stopLottery(idLotteryDto.getId()));
             reason.setStatus("Fail");
             reason.setReason(e.getMessage());
-            return new ResponseEntity<Object>(reason, HttpStatus.OK);
+            return new ResponseEntity<Object>(reason, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping("/choose-winner")
-    public ResponseEntity<Object> chooseWinner(Model model, @ModelAttribute IdLotteryDto idLotteryDto) {
+    public ResponseEntity<Object> chooseWinner(Model model, @ModelAttribute IdLotteryDto idLotteryDto) throws LotteryException {
         Reason reason = new Reason();
         try {
             User winner = lotteryService.chooseWinner(idLotteryDto.getId());
             reason.setStatus("OK");
             reason.setWinnerCode(winner.getCode());
+            LOGGER.info("Winner in Lottery with id" + lotteryService.chooseWinner(idLotteryDto.getId()) + "has been chosen");
             return new ResponseEntity<Object>(reason, HttpStatus.OK);
         } catch(LotteryException e) {
+            LOGGER.info("Couldn't choose winner in Lottery with id " + lotteryService.chooseWinner(idLotteryDto.getId()));
             reason.setStatus("Fail");
             reason.setReason(e.getMessage());
-            return new ResponseEntity<Object>(reason, HttpStatus.OK);
+            return new ResponseEntity<Object>(reason, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -74,7 +81,7 @@ public class LotteryController {
 
 
     @GetMapping("/start-registration")
-    String startRegistartion (Model model){
+    String startRegistration (Model model){
         return "start-registration";
     }
 
