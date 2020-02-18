@@ -3,6 +3,7 @@
 
 
 <!DOCTYPE html>
+<%@include file="header.jsp" %>
 <html>
 <body>
 <jsp:include page="navbar.jsp">

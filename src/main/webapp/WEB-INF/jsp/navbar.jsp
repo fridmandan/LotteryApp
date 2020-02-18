@@ -2,7 +2,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <h1>User section</h1>
+        <h1>User</h1>
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a class="nav-link" href="/register">
@@ -15,7 +15,7 @@
                 </a>
             </li>
         </ul>
-        <h1>Admin section [TODO: Add security endpoints]</h1>
+        <h1>Admin</h1>
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a class="nav-link" href="/stop-lottery">

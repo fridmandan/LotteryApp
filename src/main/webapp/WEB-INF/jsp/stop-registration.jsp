@@ -4,12 +4,13 @@
 
 <!DOCTYPE html>
 <html>
+<%@include file="header.jsp" %>
 <body>
 <jsp:include page="navbar.jsp">
     <jsp:param name="currentPage" value="stop-registation"/>
 </jsp:include>
 <div class="container-fluid">
-    <form action="/stop-lottery" method="post">
+    <form action="/stop-registration" method="post">
         <div class="form-group">
             <label>Lottery Id</label>
             <input name="id" class="form-control" placeholder="Id">

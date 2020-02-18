@@ -4,6 +4,7 @@
 
 <!DOCTYPE html>
 <html>
+<%@include file="header.jsp" %>
 <body>
 <jsp:include page="navbar.jsp">
     <jsp:param name="currentPage" value="status"/>
