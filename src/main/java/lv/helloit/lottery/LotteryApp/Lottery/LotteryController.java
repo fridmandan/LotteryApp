@@ -22,6 +22,20 @@ public class LotteryController {
     @Autowired
     LotteryService lotteryService;
 
+    @GetMapping("/admin")
+    public String adminPage(Model model) {
+        return "admin-loginPage";
+    }
+
+    @GetMapping("/")
+    public String homePage(Model model) {
+        return "register";
+    }
+
+    @GetMapping("/admin-page")
+    public String adminPageTwo(Model model) {
+        return "admin-page";
+    }
 
     @PostMapping("/start-registration")
     public ResponseEntity<Object> startLottery(Model model, @ModelAttribute StartLotteryDto startLotteryDto) throws LotteryException {
@@ -85,7 +99,7 @@ public class LotteryController {
         return "start-registration";
     }
 
-    @GetMapping("/stop-lottery")
+    @GetMapping("/stop-registration")
     String stopRegistration (Model model){
         return "stop-registration";
     }

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +26,7 @@ public class LotteryService {
     UserDao userDao;
     public Lottery startLottery(StartLotteryDto startLotteryDto) throws LotteryException {
         if (lotteryDao.findByTitle(startLotteryDto.getTitle()).isPresent()) {
-            LOGGER.info("Lottery with title" + startLotteryDto.getTitle() + "already exist");
+            LOGGER.info("Lottery with title " + startLotteryDto.getTitle() + " already exist");
             throw new LotteryException("Lottery already exists");
         }
 
@@ -44,10 +45,11 @@ public class LotteryService {
         if (lottery.isPresent()) {
             Lottery myLottery = lottery.get();
             myLottery.setActive(false);
+            myLottery.setEndDate(LocalDateTime.now());
             lotteryDao.save(myLottery);
             return "OK";
         } else {
-            LOGGER.info("Lottery with id" + lotteryDao.findById(id) + "doesn't exist");
+            LOGGER.info("Lottery with id " + lotteryDao.findById(id) + " doesn't exist");
             throw new LotteryException("Lottery doesn't exist");
         }
     }
@@ -56,14 +58,19 @@ public class LotteryService {
         Optional <Lottery> potentialLottery = lotteryDao.findById(id);
 
         if (potentialLottery.isEmpty()) {
-            LOGGER.info("Lottery with id" + lotteryDao.findById(id) + "doesn't exist");
+            LOGGER.info("Lottery with id " + lotteryDao.findById(id) + " doesn't exist");
             throw new LotteryException("Lottery doesn't exists");
         }
 
         Lottery lottery = potentialLottery.get();
 
+        if (lottery.isActive()) {
+            LOGGER.info("Can't choose winner in lottery with id " + lottery.getId() + " due to active registration");
+            throw new LotteryException("Lottery doesn't exists");
+        }
+
         if (lottery.getWinnerId() != null) {
-            LOGGER.info("Winner with id" + lottery.getWinnerId() + "has already been chosen");
+            LOGGER.info("Winner with id " + lottery.getWinnerId() + " has already been chosen");
             throw new LotteryException("Winner already has been chosen");
         }
 
