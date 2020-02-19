@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,8 @@ import javax.validation.Valid;
 @Controller
 @Slf4j
 public class UserController {
+    @Autowired
+    PasscodeValidator validator;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     public final UserService userService;
 
@@ -27,13 +30,20 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    String signUp(@Valid @ModelAttribute UserDto userDto, Model model) {
+    String signUp(@Valid @ModelAttribute UserDto userDto, Model model, BindingResult bindingResult) {
+
+        validator.validate(userDto, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errors", bindingResult.getAllErrors());
+            return "error";
+        }
         try {
             String createdUser = userService.registerUser(userDto);
             LOGGER.info("User created: " + userDto.getEmail());
             model.addAttribute("response",createdUser);
         } catch (LotteryException e) {
-            LOGGER.info("User with email" + userDto.getEmail() + "wasn't registered");
+            LOGGER.info("User with email " + userDto.getEmail() + " wasn't registered");
             model.addAttribute("response", e.getMessage());
         }
 
@@ -43,7 +53,7 @@ public class UserController {
     @GetMapping("/status")
     String status (Model model, @RequestParam Long id, @RequestParam String email, @RequestParam String code){
         String response = userService.getWinnerStatus(id, email, code);
-        LOGGER.info("Status was called by user" + response);
+        LOGGER.info("Status was called by user " + response);
         model.addAttribute("response",response);
         return "status";
     }

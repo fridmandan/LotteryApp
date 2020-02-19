@@ -25,25 +25,28 @@ public class UserService {
     public String registerUser(UserDto userDto) throws LotteryException {
         Long lotteryId = userDto.getLotteryId();
         Optional <Lottery> potentialLottery = lotteryDao.findById(lotteryId);
-        if(userDto.getAge()<= 21) {
-            LOGGER.info("User is not old enough" + userDto.getAge());
-            throw new LotteryException("You can only from 21 years old");
+
+
+
+        if(userDto.getAge() < 21) {
+            LOGGER.info("User is not old enough " + userDto.getAge());
+            throw new LotteryException("You can only participate in lottery from 21 years old");
         }
 
         if (potentialLottery.isEmpty()) {
-            LOGGER.info("Lottery doesn't exist" + lotteryId);
+            LOGGER.info("Lottery doesn't exist " + lotteryId);
             throw new LotteryException("Lottery doesn't exists");
         }
 
         Lottery lottery = potentialLottery.get();
 
         if (!lottery.isActive()) {
-            LOGGER.info("Lottery is not active" + lottery);
+            LOGGER.info("Lottery is not active " + lottery);
             throw new LotteryException("Lottery is not active");
         }
 
         if (lottery.getUsers().size() >= lottery.getMaxLimit()) {
-            LOGGER.info("Lottery is full" + lottery.getUsers().size());
+            LOGGER.info("Lottery is full " + lottery.getUsers().size());
             throw new LotteryException("Lottery is full");
         }
 
@@ -64,7 +67,7 @@ public class UserService {
             Lottery lottery = possibleLottery.get();
 
             if(lottery.getWinnerId() == null) {
-                LOGGER.info("PENDING" + lottery.getId());
+                LOGGER.info("PENDING " + lottery.getId());
                 return "PENDING";
             }
 
@@ -72,10 +75,10 @@ public class UserService {
             if(possibleUser.isPresent()) {
                 User user = possibleUser.get();
                 if(user.getId().equals(lottery.getWinnerId())) {
-                    LOGGER.info("WIN" + lottery.getWinnerId());
+                    LOGGER.info("WIN " + lottery.getWinnerId());
                     return "WIN";
                 } else {
-                    LOGGER.info("LOSE" + lottery.getWinnerId());
+                    LOGGER.info("LOSE " + lottery.getWinnerId());
                     return "LOSE";
                 }
             }

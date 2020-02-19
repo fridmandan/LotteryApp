@@ -24,7 +24,7 @@
 
         <div class="form-group">
             <label>Code</label>
-            <input type="password" name="code" class="form-control" placeholder="Code">
+            <input name="code" class="form-control" placeholder="Code">
         </div>
 
         <div class="form-group">
@@ -35,7 +35,7 @@
 
         <button type="submit" class="btn btn-primary">Sign Up</button>
         <button type="reset" class="btn btn-secondary">Clear</button>
-        <p>${response}</p>
+        <p style="color: red">${response}</p>
 
     </form>
 </div>
